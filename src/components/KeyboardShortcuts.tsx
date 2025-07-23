@@ -37,6 +37,11 @@ const shortcuts: Shortcut[] = [
   { keys: ['Ctrl', 'Z'], description: 'Undo', category: 'Editing' },
   { keys: ['Ctrl', 'Y'], description: 'Redo', category: 'Editing' },
   
+  // Advanced Features
+  { keys: ['Ctrl', 'Shift', 'P'], description: 'Open Project Manager', category: 'Advanced' },
+  { keys: ['Ctrl', 'Shift', 'T'], description: 'Open Template Manager', category: 'Advanced' },
+  { keys: ['Ctrl', 'Shift', 'W'], description: 'Open Team Workspace', category: 'Advanced' },
+  
   // Export & Settings
   { keys: ['Ctrl', 'E'], description: 'Export conversation', category: 'Export' },
   { keys: ['Ctrl', ','], description: 'Open settings', category: 'Settings' },

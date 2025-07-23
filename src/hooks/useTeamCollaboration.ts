@@ -343,3 +343,15 @@ export function useConversationComments(conversationId: string) {
     refetch: loadComments
   }
 }
+
+// Combined hook for all team collaboration features
+export function useTeamCollaboration() {
+  const workspaces = useTeamWorkspaces()
+  const sharedConversations = useSharedConversations()
+
+  return {
+    workspaces,
+    sharedConversations,
+    useConversationComments
+  }
+}

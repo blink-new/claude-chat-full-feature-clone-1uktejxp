@@ -241,3 +241,16 @@ export function useConversationTemplates() {
     refetch: loadTemplates
   }
 }
+
+// Combined hook for all advanced project features
+export function useAdvancedProjects() {
+  const folders = useProjectFolders()
+  const tags = useProjectTags()
+  const templates = useConversationTemplates()
+
+  return {
+    folders,
+    tags,
+    templates
+  }
+}

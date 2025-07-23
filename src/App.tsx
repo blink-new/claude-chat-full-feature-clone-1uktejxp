@@ -7,9 +7,13 @@ import { TopNavigation } from '@/components/TopNavigation'
 import { SearchDialog } from '@/components/SearchDialog'
 import { ExportDialog } from '@/components/ExportDialog'
 import { KeyboardShortcuts } from '@/components/KeyboardShortcuts'
+import { ProjectManager } from '@/components/ProjectManager'
+import { TemplateManager } from '@/components/TemplateManager'
 import { useChat } from '@/hooks/useChat'
 import { useProjects } from '@/hooks/useProjects'
 import { useArtifacts } from '@/hooks/useArtifacts'
+import { useAdvancedProjects } from '@/hooks/useAdvancedProjects'
+import { useTeamCollaboration } from '@/hooks/useTeamCollaboration'
 import type { Conversation } from '@/types'
 
 function App() {
@@ -19,6 +23,8 @@ function App() {
   const [searchDialogOpen, setSearchDialogOpen] = useState(false)
   const [exportDialogOpen, setExportDialogOpen] = useState(false)
   const [shortcutsDialogOpen, setShortcutsDialogOpen] = useState(false)
+  const [projectManagerOpen, setProjectManagerOpen] = useState(false)
+  const [templateManagerOpen, setTemplateManagerOpen] = useState(false)
   const [selectedConversationForExport, setSelectedConversationForExport] = useState<Conversation | null>(null)
   
   const { 
@@ -47,6 +53,10 @@ function App() {
     selectArtifact,
     updateArtifact
   } = useArtifacts()
+
+  // Advanced features hooks
+  const advancedProjects = useAdvancedProjects()
+  const teamCollaboration = useTeamCollaboration()
 
   // Keyboard shortcuts handler
   const handleKeyboardShortcuts = useCallback((event: KeyboardEvent) => {
@@ -106,6 +116,18 @@ function App() {
           event.preventDefault()
           // Switch to projects tab - would need to pass this to sidebar
           break
+        case 'p':
+          event.preventDefault()
+          if (shiftKey) {
+            setProjectManagerOpen(true)
+          }
+          break
+        case 't':
+          event.preventDefault()
+          if (shiftKey) {
+            setTemplateManagerOpen(true)
+          }
+          break
         case '/':
           event.preventDefault()
           setShortcutsDialogOpen(true)
@@ -118,6 +140,8 @@ function App() {
       setSearchDialogOpen(false)
       setExportDialogOpen(false)
       setShortcutsDialogOpen(false)
+      setProjectManagerOpen(false)
+      setTemplateManagerOpen(false)
     }
   }, [
     currentConversation,
@@ -163,6 +187,8 @@ function App() {
           setArtifactsPanelOpen={setArtifactsPanelOpen}
           onSearch={handleSearch}
           onExport={currentConversation ? handleExport : undefined}
+          onOpenProjectManager={() => setProjectManagerOpen(true)}
+          onOpenTemplateManager={() => setTemplateManagerOpen(true)}
         />
         
         {/* Main Layout */}
@@ -222,6 +248,17 @@ function App() {
       <KeyboardShortcuts
         open={shortcutsDialogOpen}
         onOpenChange={setShortcutsDialogOpen}
+      />
+
+      <ProjectManager
+        open={projectManagerOpen}
+        onOpenChange={setProjectManagerOpen}
+        {...advancedProjects}
+      />
+
+      <TemplateManager
+        open={templateManagerOpen}
+        onOpenChange={setTemplateManagerOpen}
       />
       
       <Toaster />

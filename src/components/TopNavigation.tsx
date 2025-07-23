@@ -17,7 +17,9 @@ import {
   User,
   LogOut,
   Download,
-  Search
+  Search,
+  FolderTree,
+  FileText
 } from 'lucide-react'
 import { 
   DropdownMenu, 
@@ -37,6 +39,8 @@ interface TopNavigationProps {
   setArtifactsPanelOpen: (open: boolean) => void
   onSearch?: () => void
   onExport?: () => void
+  onOpenProjectManager?: () => void
+  onOpenTemplateManager?: () => void
 }
 
 const models = [
@@ -74,7 +78,9 @@ export function TopNavigation({
   artifactsPanelOpen,
   setArtifactsPanelOpen,
   onSearch,
-  onExport
+  onExport,
+  onOpenProjectManager,
+  onOpenTemplateManager
 }: TopNavigationProps) {
   const [selectedModel, setSelectedModel] = useState('claude-3-5-sonnet')
   const [shortcutsOpen, setShortcutsOpen] = useState(false)
@@ -151,6 +157,30 @@ export function TopNavigation({
             </Button>
           )}
 
+          {onOpenProjectManager && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onOpenProjectManager}
+              className="p-2"
+              title="Project Manager (Ctrl+Shift+P)"
+            >
+              <FolderTree className="h-4 w-4" />
+            </Button>
+          )}
+
+          {onOpenTemplateManager && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onOpenTemplateManager}
+              className="p-2"
+              title="Template Manager (Ctrl+Shift+T)"
+            >
+              <FileText className="h-4 w-4" />
+            </Button>
+          )}
+
           <Button
             variant="ghost"
             size="sm"
@@ -184,6 +214,22 @@ export function TopNavigation({
                 Keyboard shortcuts
                 <Badge variant="outline" className="ml-auto text-xs">Ctrl+/</Badge>
               </DropdownMenuItem>
+              
+              {onOpenProjectManager && (
+                <DropdownMenuItem onClick={onOpenProjectManager}>
+                  <FolderTree className="h-4 w-4 mr-2" />
+                  Project Manager
+                  <Badge variant="outline" className="ml-auto text-xs">Ctrl+Shift+P</Badge>
+                </DropdownMenuItem>
+              )}
+
+              {onOpenTemplateManager && (
+                <DropdownMenuItem onClick={onOpenTemplateManager}>
+                  <FileText className="h-4 w-4 mr-2" />
+                  Template Manager
+                  <Badge variant="outline" className="ml-auto text-xs">Ctrl+Shift+T</Badge>
+                </DropdownMenuItem>
+              )}
               
               {onExport && (
                 <DropdownMenuItem onClick={onExport}>
